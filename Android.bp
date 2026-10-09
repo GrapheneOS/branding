@@ -1,0 +1,27 @@
+package {
+    default_applicable_licenses: ["branding_license"],
+}
+
+license {
+    name: "branding_license",
+    visibility: [":__subpackages__"],
+    license_kinds: ["SPDX-license-identifier-MIT"],
+    license_text: ["LICENSE"],
+}
+
+// Devices with identical artwork dimensions share identical assets.
+prebuilt_media {
+    name: "bootanimation_zip",
+    product_specific: true,
+    filename: "bootanimation.zip",
+    symlinks: ["bootanimation-dark.zip"],
+    src: select(soong_config_variable("bootanimation_zip", "canvas_size"), {
+        "1080": "bootanimation/1080.zip",
+        "1280": "bootanimation/1280.zip",
+        "1344": "bootanimation/1344.zip",
+        "1440": "bootanimation/1440.zip",
+        "1600": "bootanimation/1600.zip",
+        // Emulator builds use this without the Pixel product selector.
+        default: "bootanimation/1080.zip",
+    }),
+}
